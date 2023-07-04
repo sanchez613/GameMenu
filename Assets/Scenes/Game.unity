@@ -2856,6 +2856,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slider: {fileID: 1864327623}
+  _drowDuration: 0.5
+  _playerHP: {fileID: 1864327621}
 --- !u!114 &1864327623
 MonoBehaviour:
   m_ObjectHideFlags: 0

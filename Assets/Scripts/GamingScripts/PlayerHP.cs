@@ -1,25 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[RequireComponent(typeof(PlayerHPRenderer))]
+using UnityEngine.Events;
 
 public class PlayerHP : MonoBehaviour
 {
     [SerializeField] private int _maxHP;
-    [SerializeField] private GameController _gameController;
 
     private int _minHP;
     private int _currentHP;
-    private PlayerHPRenderer _renderer;
+
+    public event UnityAction<int, int> SentInitialParam;
+    public event UnityAction<int> HealthChanged;
+    public event UnityAction Died;
 
     private void Start()
     {
         _minHP = 0;
         _currentHP = _maxHP;
-        _renderer = GetComponent<PlayerHPRenderer>();
-        _renderer.SetInitialParam(_maxHP, _minHP);
-        _renderer.DrowHP(_currentHP);
+        SentInitialParam?.Invoke(_minHP, _maxHP);
     }
 
     public void RecalculateHP(int changeHP)
@@ -29,10 +28,9 @@ public class PlayerHP : MonoBehaviour
         if (_currentHP > _maxHP)
             _currentHP = _maxHP;
         else if (_currentHP <= _minHP)
-            Dead();
+            Died?.Invoke();
 
-        _renderer.DrowHP(_currentHP);
+        HealthChanged?.Invoke(_currentHP);
     }
 
-    private void Dead() => _gameController.ShowGameOverScreen();
 }
