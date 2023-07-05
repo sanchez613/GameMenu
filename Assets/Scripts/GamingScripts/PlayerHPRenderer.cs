@@ -12,22 +12,22 @@ public class PlayerHPRenderer : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerHP.SentInitialParam += SetInitialParam;        
-        _playerHP.HealthChanged += DrowHP;
+        _playerHP.SentInitialParam += OnSentInitialParam;        
+        _playerHP.HealthChanged += OnHealthChanged;
     }
 
     private void OnDisable()
     {
-        _playerHP.SentInitialParam -= SetInitialParam;
-        _playerHP.HealthChanged -= DrowHP;
+        _playerHP.SentInitialParam -= OnSentInitialParam;
+        _playerHP.HealthChanged -= OnHealthChanged;
     }
 
-    public void SetInitialParam(int minValue, int maxValue)
+    public void OnSentInitialParam(int minValue, int maxValue)
     {
         _slider.maxValue = maxValue;
         _slider.value = maxValue;
         _slider.minValue = minValue;
     }
 
-    public void DrowHP(int currentHP) => _slider.DOValue(currentHP, _drowDuration);
+    public void OnHealthChanged(int currentHP) => _slider.DOValue(currentHP, _drowDuration);
 }
